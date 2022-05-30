@@ -27,6 +27,7 @@ public final class BfNeighbors implements Function<Iterable<Point>, PriorityQueu
 		this.dpc_count = dpc_count;
 	}
 	
+	@Override
 	public final PriorityQueue<IdDist> call(Iterable<Point> iter)
 	{
 		boolean changed = false; // priority queue will be returned only if changed
