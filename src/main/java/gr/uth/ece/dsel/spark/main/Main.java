@@ -157,7 +157,7 @@ public class Main
 	    int partitions = 2; // set partitions to total number of cores
 	    
 	    JavaRDD<Point> tpointsRDD = jsc.textFile(trainingFile, partitions)
-	    							.map(new NewPoint("\t"))
+	    							.map(line -> GnnFunctions.newPoint(line, "\t"))
 	    							.persist(StorageLevel.MEMORY_AND_DISK());
 	    
 	    /*

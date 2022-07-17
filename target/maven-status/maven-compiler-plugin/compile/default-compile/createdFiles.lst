@@ -1,7 +1,6 @@
 gr/uth/ece/dsel/spark/util/CellPruningHeuristicsQT.class
 gr/uth/ece/dsel/spark/util/CreateQTreeArray.class
 gr/uth/ece/dsel/spark/util/Node.class
-gr/uth/ece/dsel/spark/util/NewPoint.class
 gr/uth/ece/dsel/spark/util/Point.class
 gr/uth/ece/dsel/spark/util/PointXComparator.class
 gr/uth/ece/dsel/spark/util/PointToTupleCellPointGD.class
