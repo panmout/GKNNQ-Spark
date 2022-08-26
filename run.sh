@@ -16,5 +16,5 @@ fastsums=true
 
 spark-submit \
 --class gr.uth.ece.dsel.spark.main.Main \
-./target/spark-0.0.1-SNAPSHOT.jar \
+./target/gknn-spark-0.0.1-SNAPSHOT.jar \
 $partitioning $method $K $N $NameNode $queryDir $queryDataset $trainingDir $trainingDataset $gnnDir $treeDir $treeFileName $phase15 $heuristics $fastsums $partitions

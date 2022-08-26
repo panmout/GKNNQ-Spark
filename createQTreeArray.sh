@@ -12,7 +12,7 @@ capacity=10
 ###########################################################################
 #                                    EXECUTE                              # ###########################################################################
 
-hadoop jar ./target/spark-0.0.1-SNAPSHOT.jar \
+hadoop jar ./target/gknn-spark-0.0.1-SNAPSHOT.jar \
 gr.uth.ece.dsel.spark.preliminary.QuadtreeArray \
 nameNode=$nameNode \
 trainingDir=$trainingDir \
