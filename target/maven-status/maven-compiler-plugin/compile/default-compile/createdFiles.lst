@@ -11,8 +11,8 @@ gr/uth/ece/dsel/spark/util/TpointsInNonPrunedCells.class
 gr/uth/ece/dsel/spark/util/CellPruningHeuristicsGD.class
 gr/uth/ece/dsel/spark/util/PsNeighbors.class
 gr/uth/ece/dsel/spark/util/BfNeighbors2.class
-gr/uth/ece/dsel/spark/preliminary/QuadtreeArray.class
 gr/uth/ece/dsel/spark/util/PointYComparator.class
+gr/uth/ece/dsel/spark/preliminary/QuadtreeArray.class
 gr/uth/ece/dsel/spark/util/MergePQ.class
 gr/uth/ece/dsel/spark/preliminary/MbrCentroid.class
 gr/uth/ece/dsel/spark/util/BfNeighbors.class
