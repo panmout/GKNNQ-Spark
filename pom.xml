@@ -8,7 +8,7 @@
   <artifactId>gknnq-spark</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-  <name>gknn-spark</name>
+  <name>gknnq-spark</name>
   <url>https://github.com/panmout/GKNNQ-Spark</url>
 
   <properties>
