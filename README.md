@@ -2,6 +2,8 @@
 
 ## Spark implementation of a parallel and distributed algorithm for efficient solving of the Group K Nearest Neighbor query involving Big Data
 
+## Code used in paper: https://doi.org/10.3390/ijgi10110763
+
 ### Description
 The algorithm needs two user provided spatial datasets of point objects in the form {int, double, double} with their coordinates normalized in the area (0,1).
 The first dataset is called *query* and the second dataset is called *training*. The *query* must be small enough to fit in the memory of a single machine, while the *training* can belong in the Big Data category.
