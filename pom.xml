@@ -5,11 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>gr.uth.ece.dsel</groupId>
-  <artifactId>gknn-spark</artifactId>
+  <artifactId>gknnq-spark</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>gknn-spark</name>
-  <!-- FIXME change it to the project's website -->
   <url>https://github.com/panmout/GKNNQ-Spark</url>
 
   <properties>
