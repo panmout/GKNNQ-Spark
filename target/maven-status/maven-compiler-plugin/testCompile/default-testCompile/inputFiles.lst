@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-/home/pmoutafis/Dropbox/moutafis_phd/GNN/GKNN-Spark/src/test/java/gr/uth/ece/dsel/spark/AppTest.java
-=======
-/home/pmoutafis/GKNN/spark/src/test/java/gr/uth/ece/dsel/spark/AppTest.java
->>>>>>> 850060c91e0c6bcd5b8031644f54d6c0b9caf333
+/home/pmoutafis/GKNN/GKNNQ-Spark/src/test/java/gr/uth/ece/dsel/spark/AppTest.java
