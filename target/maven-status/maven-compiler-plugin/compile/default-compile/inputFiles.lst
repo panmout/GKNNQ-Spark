@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /home/pmoutafis/Dropbox/moutafis_phd/GNN/GKNN-Spark/src/main/java/gr/uth/ece/dsel/spark/util/IdDist.java
 /home/pmoutafis/Dropbox/moutafis_phd/GNN/GKNN-Spark/src/main/java/gr/uth/ece/dsel/spark/util/PointToTupleCellOneQT.java
 /home/pmoutafis/Dropbox/moutafis_phd/GNN/GKNN-Spark/src/main/java/gr/uth/ece/dsel/spark/util/IdDistComparator.java
@@ -27,3 +28,34 @@
 /home/pmoutafis/Dropbox/moutafis_phd/GNN/GKNN-Spark/src/main/java/gr/uth/ece/dsel/spark/util/PointToTupleCellPointGD.java
 /home/pmoutafis/Dropbox/moutafis_phd/GNN/GKNN-Spark/src/main/java/gr/uth/ece/dsel/spark/util/NeighborsAccumulatorV2.java
 /home/pmoutafis/Dropbox/moutafis_phd/GNN/GKNN-Spark/src/main/java/gr/uth/ece/dsel/spark/util/PointToTupleCellPointQT.java
+=======
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/CellPruningHeuristicsQT.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/main/Main.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/PointToTupleCellPointGD.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/GetOverlaps.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/PointToTupleCellPointQT.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/BfNeighbors2.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/Node.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/BfNeighbors.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/Point.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/GnnFunctions.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/preliminary/Qtree.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/preliminary/QuadtreeArray.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/preliminary/MbrCentroid.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/NeighborsAccumulatorV2.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/MergePQ.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/IterablePointsCount.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/TpointsInNonPrunedCells.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/WriteLocalFiles.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/PointYComparator.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/PointToTupleCellOneQT.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/CreateQTreeArray.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/OverlapsContainCell.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/PointToTupleCellOneGD.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/PsNeighbors.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/CreateQTree.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/PointXComparator.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/IdDist.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/IdDistComparator.java
+/home/pmoutafis/GKNN/spark/src/main/java/gr/uth/ece/dsel/spark/util/CellPruningHeuristicsGD.java
+>>>>>>> 850060c91e0c6bcd5b8031644f54d6c0b9caf333
