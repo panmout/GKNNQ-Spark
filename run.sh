@@ -13,8 +13,9 @@ treeFileName=qtree.ser
 phase15=centroid # mbr or centroid
 heuristics=true
 fastsums=true
+systemType=L # 'L' for local or 'D' for distributed system
 
 spark-submit \
 --class gr.uth.ece.dsel.spark.main.Main \
 ./target/gknn-spark-0.0.1-SNAPSHOT.jar \
-$partitioning $method $K $N $NameNode $queryDir $queryDataset $trainingDir $trainingDataset $gnnDir $treeDir $treeFileName $phase15 $heuristics $fastsums $partitions
+$partitioning $method $K $N $NameNode $queryDir $queryDataset $trainingDir $trainingDataset $gnnDir $treeDir $treeFileName $phase15 $heuristics $fastsums $partitions $systemType
