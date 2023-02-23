@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: gr.uth.ece.dsel.spark.AppTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD
-<<<<<<< HEAD
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.224 s - in gr.uth.ece.dsel.spark.AppTest
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.429 s - in gr.uth.ece.dsel.spark.AppTest
->>>>>>> ea7419d (Update README.md)
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.144 s - in gr.uth.ece.dsel.spark.AppTest
->>>>>>> 922346e (Update README.md)
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 s - in gr.uth.ece.dsel.spark.AppTest
