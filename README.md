@@ -43,6 +43,7 @@ Finally, user must edit script file *run.sh* and provide the appropriate paramet
 - phase15: *MBR* or *centroid*, selects the desired refining method
 - heuristics: *true* or *false* to turn the pruning heuristics on or off
 - fastSums: *true* or *false* to turn the fast sums computational method on or off
+- systemType: *L* for local and *D* for distributed system
 
 After that, execute *run.sh*
 
