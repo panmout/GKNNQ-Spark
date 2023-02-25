@@ -44,7 +44,7 @@ Finally, user must edit script file *run.sh* and provide the appropriate paramet
 - heuristics: *true* or *false* to turn the pruning heuristics on or off
 - fastSums: *true* or *false* to turn the fast sums computational method on or off
 
-After that, just type /run.sh
+After that, execute *run.sh*
 
 ### How to create a quad tree binary file
 There are two different script files, *createQTree.sh* and *createQTreeArray.sh* that create quad tree files using different methods. The first one is recommended and activated by default.
