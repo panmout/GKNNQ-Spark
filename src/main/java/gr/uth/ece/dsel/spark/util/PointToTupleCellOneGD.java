@@ -13,9 +13,9 @@ public final class PointToTupleCellOneGD implements PairFunction<Point, String, 
 	}
 	
 	@Override
-	public final Tuple2<String, Integer> call(Point p)
+	public Tuple2<String, Integer> call(Point p)
 	{
 		String cell = GnnFunctions.pointToCellGD(p, this.N);
-		return new Tuple2<String, Integer>(cell, 1);
+		return new Tuple2<>(cell, 1);
 	}
 }

@@ -8,21 +8,21 @@ import org.apache.spark.util.LongAccumulator;
 
 public class BfNeighbors2 implements Function2<PriorityQueue<IdDist>, Point, PriorityQueue<IdDist>>
 {
-	private int k;
-	private ArrayList<Point> qpoints;
-	private double[] mbrCentroid;
-	private PriorityQueue<IdDist> neighbors;
-	private PriorityQueue<IdDist> oldNeighbors;
-	private boolean fastsums;
-	private LongAccumulator dpc_count;
+	private final int k;
+	private final ArrayList<Point> qpoints;
+	private final double[] mbrCentroid;
+	private final PriorityQueue<IdDist> neighbors;
+	private final PriorityQueue<IdDist> oldNeighbors;
+	private final boolean fastsums;
+	private final LongAccumulator dpc_count;
 	
 	public BfNeighbors2(int K, double[] mbrC, ArrayList<Point> qp, PriorityQueue<IdDist> pq, boolean fs, LongAccumulator dpc_count)
 	{
 		this.k = K;
-		this.qpoints = new ArrayList<Point>(qp);
+		this.qpoints = new ArrayList<>(qp);
 		this.mbrCentroid = Arrays.copyOf(mbrC, mbrC.length);
-		this.neighbors = new PriorityQueue<IdDist>(pq);
-		this.oldNeighbors = new PriorityQueue<IdDist>(pq);
+		this.neighbors = new PriorityQueue<>(pq);
+		this.oldNeighbors = new PriorityQueue<>(pq);
 		this.fastsums = fs;
 		this.dpc_count = dpc_count;
 	}
