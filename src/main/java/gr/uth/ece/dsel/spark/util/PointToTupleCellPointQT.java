@@ -5,7 +5,7 @@ import scala.Tuple2;
 
 public final class PointToTupleCellPointQT implements PairFunction<Point, String, Point>
 {
-	private Node node;
+	private final Node node;
 	
 	public PointToTupleCellPointQT (Node node)
 	{
@@ -13,9 +13,9 @@ public final class PointToTupleCellPointQT implements PairFunction<Point, String
 	}
 	
 	@Override
-	public final Tuple2<String, Point> call(Point p)
+	public Tuple2<String, Point> call(Point p)
 	{
 		final String cell = GnnFunctions.pointToCellQT(p.getX(), p.getY(), this.node);
-		return new Tuple2<String, Point>(cell, p);
+		return new Tuple2<>(cell, p);
 	}
 }

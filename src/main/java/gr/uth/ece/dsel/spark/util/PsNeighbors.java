@@ -13,29 +13,29 @@ import org.apache.spark.util.LongAccumulator;
 
 public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueue<IdDist>>
 {
-	private int k;
-	private ArrayList<Point> qpoints;
-	private double[] mbrCentroid;
-	private PriorityQueue<IdDist> neighbors;
-	private PriorityQueue<IdDist> oldNeighbors;
+	private final int k;
+	private final ArrayList<Point> qpoints;
+	private final double[] mbrCentroid;
+	private final PriorityQueue<IdDist> neighbors;
+	private final PriorityQueue<IdDist> oldNeighbors;
 	private ArrayList<Point> tpoints;
-	private boolean fastsums;
+	private final boolean fastsums;
 	private boolean changed = false; // priority queue will be returned only if changed
-	private LongAccumulator dpc_count;
-	private LongAccumulator sumdist;
-	private LongAccumulator sumdx;
-	private LongAccumulator sumdx_success;
-	private LongAccumulator skipped_tpoints;
+	private final LongAccumulator dpc_count;
+	private final LongAccumulator sumdist;
+	private final LongAccumulator sumdx;
+	private final LongAccumulator sumdx_success;
+	private final LongAccumulator skipped_tpoints;
 	
 	//private String messages = "";
 	
 	public PsNeighbors(int K, double[] mbrC, ArrayList<Point> qp, PriorityQueue<IdDist> pq, boolean fs, LongAccumulator dpc_count, LongAccumulator sumdist, LongAccumulator sumdx, LongAccumulator sumdx_success, LongAccumulator skipped_tpoints)
 	{
 		this.k = K;
-		this.qpoints = new ArrayList<Point>(qp);
+		this.qpoints = new ArrayList<>(qp);
 		this.mbrCentroid = Arrays.copyOf(mbrC, mbrC.length);
-		this.neighbors = new PriorityQueue<IdDist>(pq);
-		this.oldNeighbors = new PriorityQueue<IdDist>(pq);
+		this.neighbors = new PriorityQueue<>(pq);
+		this.oldNeighbors = new PriorityQueue<>(pq);
 		this.fastsums = fs;
 		this.dpc_count = dpc_count;
 		this.sumdist = sumdist;
@@ -44,13 +44,13 @@ public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueu
 		this.skipped_tpoints = skipped_tpoints;
 	}
 	
-	public final PriorityQueue<IdDist> call(Iterable<Point> iter)
+	public PriorityQueue<IdDist> call(Iterable<Point> iter)
 	{
 		// read MBR coordinates
 		final double xmin = this.mbrCentroid[0];
 		final double xmax = this.mbrCentroid[1];
 	    
-	    this.tpoints = new ArrayList<Point>();
+	    this.tpoints = new ArrayList<>();
 	    
 	    // fill tpoints list
 	    for (Point tpoint: iter)
@@ -79,10 +79,7 @@ public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueu
 			int left_limit = 0;
 			
 			if (xm < x_left) // median qpoint is at left of all tpoints
-			{
 				check_right = true;
-				right_limit = 0;
-			}
 			else if (x_right < xm) // median qpoint is at right of all tpoints
 			{
 				check_left = true;
@@ -103,23 +100,15 @@ public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueu
 			if (check_left)
 			{
 				while ((left_limit > -1) && (xt(left_limit) > xmin))  // if tpoint's x is inside MBR
-				{
-					if (calc_sum_dist_in(left_limit--) == false)
+					if (!calc_sum_dist_in(left_limit--))
 					{
 						cont_search = false;
 						break;
 					}
-				}
-				if (cont_search == true) // if tpoint's x is outside MBR
-				{
+				if (cont_search) // if tpoint's x is outside MBR
 					while (left_limit > -1)
-					{
-						if (calc_sum_dist_out(left_limit--) == false)
-						{
+						if (!calc_sum_dist_out(left_limit--))
 							break;
-						}
-					}
-				}
 				// x-check success, add remaining tpoints
 				if (left_limit > 0) // could be left_limit = -1
 				{
@@ -133,23 +122,15 @@ public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueu
 			if (check_right)
 			{
 				while (right_limit < this.tpoints.size() && (xt(right_limit) < xmax)) // if tpoint's x is inside MBR
-				{
-					if (calc_sum_dist_in(right_limit++) == false)
+					if (!calc_sum_dist_in(right_limit++))
 					{
 						cont_search = false;
 						break;
 					}
-				}
-				if (cont_search == true) // if tpoint's x is outside MBR
-				{
+				if (cont_search) // if tpoint's x is outside MBR
 					while (right_limit < this.tpoints.size())
-					{
-						if (calc_sum_dist_out(right_limit++) == false)
-						{
+						if (!calc_sum_dist_out(right_limit++))
 							break;
-						}
-					}
-				}
 				// x-check success, add remaining tpoints
 				if (this.tpoints.size() - right_limit > 0) // could be right_limit = tpoints.size()
 				{
@@ -159,7 +140,7 @@ public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueu
 			}
 		}
 	 	//writeFile("messages.txt", messages);
-	 	if (this.changed == true)
+	 	if (this.changed)
 	 	{
 	    	if (this.oldNeighbors.isEmpty()) // phase 2
 	    		return this.neighbors;
@@ -167,11 +148,11 @@ public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueu
 	    		return GnnFunctions.pqDifference(this.neighbors, this.oldNeighbors);
 	    }
 	    else
-	    	return new PriorityQueue<IdDist>(this.k, new IdDistComparator("max"));
+	    	return new PriorityQueue<>(this.k, new IdDistComparator("max"));
 	 	// end PsNeighbors
 	}
 	
-	private final boolean calc_sum_dist_in(int i) // if tpoint's x is inside MBR
+	private boolean calc_sum_dist_in(int i) // if tpoint's x is inside MBR
 	{
 		// read centroid coordinates
 		final double xc = this.mbrCentroid[4];
@@ -248,7 +229,7 @@ public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueu
 		}
 	}
 	
-	private final boolean calc_sum_dist_out(int i) // if tpoint's x is outside MBR
+	private boolean calc_sum_dist_out(int i) // if tpoint's x is outside MBR
 	{
 		// read centroid coordinates
 		final double xc = this.mbrCentroid[4];
@@ -325,53 +306,9 @@ public final class PsNeighbors implements Function<Iterable<Point>, PriorityQueu
 		}
 	}
 	
-	private final double xt(int i)
+	private double xt(int i)
 	{
 		final Point tpoint = this.tpoints.get(i); // get tpoint
 		return tpoint.getX(); // tpoint's x
-	}
-	
-	public final void writeFile(String file, String content)
-	{
-		try
-		{
-			Formatter outputTextFile = new Formatter(new FileWriter(file, true));
-			//Formatter outputTextFile = new Formatter(file);
-			outputTextFile.format(content);
-			outputTextFile.close();
-		}
-		catch (FormatterClosedException formatterException)
-		{
-			System.err.println("Error writing to file, exiting");
-			System.exit(2);
-		}
-		catch (IOException ioException)
-		{
-			System.err.println("Error writing to file, exiting");
-			System.exit(3);
-		}
-	}
-	
-	public final String pqToString()
-	{
-		PriorityQueue<IdDist> newPQ = new PriorityQueue<IdDist>(k, new IdDistComparator("max"));
-		
-		newPQ.addAll(this.neighbors);
-		
-		String output = "";
-		
-		int counter = 0;
-		
-		while (!newPQ.isEmpty() && counter < k) // add neighbors to output
-	    {
-			IdDist elem = newPQ.poll();
-			int pid = elem.getId();
-			double dist = elem.getDist();
-			output = output.concat(String.format("(%d\t%.10f)", pid, dist));
-			counter++;
-		}
-		output = output.concat("\n");
-		
-		return output;
 	}
 }

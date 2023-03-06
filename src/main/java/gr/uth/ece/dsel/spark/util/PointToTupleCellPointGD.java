@@ -5,7 +5,7 @@ import scala.Tuple2;
 
 public final class PointToTupleCellPointGD implements PairFunction<Point, String, Point>
 {
-	private int n;
+	private final int n;
 	
 	public PointToTupleCellPointGD (int n)
 	{
@@ -13,9 +13,9 @@ public final class PointToTupleCellPointGD implements PairFunction<Point, String
 	}
 	
 	@Override
-	public final Tuple2<String, Point> call(Point p)
+	public Tuple2<String, Point> call(Point p)
 	{
 		final String cell = GnnFunctions.pointToCellGD(p, n);
-		return new Tuple2<String, Point>(cell, p);
+		return new Tuple2<>(cell, p);
 	}
 }

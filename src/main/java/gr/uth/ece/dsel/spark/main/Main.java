@@ -1,25 +1,25 @@
 package gr.uth.ece.dsel.spark.main;
 
+import gr.uth.ece.dsel.spark.util.*;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.storage.StorageLevel;
 import org.apache.spark.util.LongAccumulator;
-import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 import java.util.HashSet;
-import java.io.BufferedReader;
-import gr.uth.ece.dsel.spark.util.*;
+import java.util.PriorityQueue;
 
 public class Main
 {	
@@ -56,7 +56,7 @@ public class Main
 		final char systemType = args[15].charAt(0); // "L" for local or "D" for distributed
 	    
 		final String username = System.getProperty("user.name"); // get user name
-	    ArrayList<Point> qpoints = new ArrayList<Point>();
+	    ArrayList<Point> qpoints = new ArrayList<>();
 	    double[] mbrCentroid = new double[7];
 	    Node root = null;
 	    
@@ -143,7 +143,7 @@ public class Main
 	    
 	  	// if PS sort query points by x-ascending
 	  	if (method.equals("ps"))
-	  		Collections.sort(qpoints, new PointXComparator("min"));
+	  		qpoints.sort(new PointXComparator("min"));
 	  	
 	  	// broadcast query and mbrcentroid array
 	    Broadcast<ArrayList<Point>> qpointsBC = jsc.broadcast(qpoints);
@@ -167,8 +167,8 @@ public class Main
 	    int partitions = 2; // set partitions to total number of cores
 	    
 	    JavaRDD<Point> tpointsRDD = jsc.textFile(trainingFile, partitions)
-	    							.map(line -> GnnFunctions.newPoint(line, "\t"))
-	    							.persist(StorageLevel.MEMORY_AND_DISK());
+									   .map(line -> GnnFunctions.newPoint(line, "\t"))
+	    							   .persist(StorageLevel.MEMORY_AND_DISK());
 	    
 	    /*
 	     **************************************************************************
@@ -187,12 +187,12 @@ public class Main
 	    if (partitioning.equals("gd"))
 	    	tPointsPerCellRDD = tpointsRDD
 		    					.mapToPair(new PointToTupleCellOneGD(N))
-		    					.reduceByKey((a, b) -> a + b, partitions)
+		    					.reduceByKey(Integer::sum, partitions)
 		    					.persist(StorageLevel.MEMORY_AND_DISK());
 	    else if (partitioning.equals("qt"))
 	    	tPointsPerCellRDD = tpointsRDD
 								.mapToPair(new PointToTupleCellOneQT(root))
-								.reduceByKey((a, b) -> a + b, partitions)
+								.reduceByKey(Integer::sum, partitions)
 		    					.persist(StorageLevel.MEMORY_AND_DISK());
 	    
 	    System.out.printf("number of cells = %d\n", tPointsPerCellRDD.count());
@@ -200,7 +200,7 @@ public class Main
 	    System.out.printf("tPointsPerCellRDD numPartitions: %d%n", tPointsPerCellRDD.getNumPartitions());
 	    
 	    // collect Phase 1 output: HashMap(cell_id, num tpoints)
-	    final HashMap<String, Integer> cell_tpoints = new HashMap<String, Integer>(tPointsPerCellRDD.collectAsMap());
+	    final HashMap<String, Integer> cell_tpoints = new HashMap<>(tPointsPerCellRDD.collectAsMap());
 	    
 	    System.out.printf("PHASE 1 finished in %d millis\n", System.currentTimeMillis() - t1);
 	    
@@ -216,9 +216,8 @@ public class Main
 	    System.out.println("PHASE 1.5 starting...");
 	    
 	    // initialize empty int set to put overlaps
-	    HashSet<String> overlaps = new HashSet<String>();
-	    
-	    final GetOverlaps getOverlaps = new GetOverlaps(K, mbrCentroidBC.getValue(), cell_tpoints, phase15);
+
+		final GetOverlaps getOverlaps = new GetOverlaps(K, mbrCentroidBC.getValue(), cell_tpoints, phase15);
 	    
 	    if (partitioning.equals("gd"))
 	    {
@@ -230,8 +229,9 @@ public class Main
 	    	getOverlaps.setRoot(root);
 	    	getOverlaps.setPartition("qt");
 	    }
-	    
-	    overlaps.addAll(getOverlaps.getOverlaps());
+
+		// initialize empty set to put overlaps
+		HashSet<String> overlaps = new HashSet<>(getOverlaps.getOverlaps());
 	
 	    // broadcast overlaps
 	    Broadcast<HashSet<String>> overlapsBC = jsc.broadcast(overlaps);
@@ -267,7 +267,7 @@ public class Main
 	    }
 	    
 	    // max heap of K neighbors (IdDist)
-	    PriorityQueue<IdDist> neighbors2 = new PriorityQueue<IdDist>(K, new IdDistComparator("max"));
+	    PriorityQueue<IdDist> neighbors2 = new PriorityQueue<>(K, new IdDistComparator("max"));
 	    
 	    // RDD of best neighbors (as PriorityQueue<IdDist> objects)
 	    JavaRDD<PriorityQueue<IdDist>> neighbors2RDD = jsc.emptyRDD();
@@ -381,17 +381,17 @@ public class Main
 	    // apply heuristics to prune distant cells
 	    if (partitioning.equals("gd"))
 	    	nonPrunedCellsRDD = tPointsPerCellRDD
-	    						.map(pair -> pair._1)
+	    						.keys()
 	    						.filter(new CellPruningHeuristicsGD(N, dm, overlapsBC.getValue(), qpointsBC.getValue(), mbrCentroidBC.getValue(), fastsums, heuristics, num_cells, heur1success, heur1fail, heur2success, heur2fail, heur3success, heur3fail));
 	    else if (partitioning.equals("qt"))
 	    	nonPrunedCellsRDD = tPointsPerCellRDD
-	    						.map(pair -> pair._1)
+	    						.keys()
 	    						.filter(new CellPruningHeuristicsQT(dm, overlapsBC.getValue(), qpointsBC.getValue(), mbrCentroidBC.getValue(), fastsums, heuristics, num_cells, heur1success, heur1fail, heur2success, heur2fail, heur3success, heur3fail));
 	    
 	    tPointsPerCellRDD.unpersist(); // remove RDD from cache
 	    
 	    // collect nonPrunedCellsRDD as local set
-	    HashSet<String> nonPrunedCells = new HashSet<String>(nonPrunedCellsRDD.collect());
+	    HashSet<String> nonPrunedCells = new HashSet<>(nonPrunedCellsRDD.collect());
 	    
 	    par = (int) Math.ceil(nonPrunedCells.size() / 4); // set partitions to number of non-overlaps cells / 4
 	    
@@ -410,7 +410,7 @@ public class Main
 	    // RDD of best neighbors (as PriorityQueue<IdDist> objects)
 	    JavaRDD<PriorityQueue<IdDist>> neighbors3RDD = jsc.emptyRDD();
 	    
-	    PriorityQueue<IdDist> neighbors3 = new PriorityQueue<IdDist>(K, new IdDistComparator("max"));
+	    PriorityQueue<IdDist> neighbors3 = new PriorityQueue<>(K, new IdDistComparator("max"));
 	    
 	    // ***** groupByKey method *****
 	    //

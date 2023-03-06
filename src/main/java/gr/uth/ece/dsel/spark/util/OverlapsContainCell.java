@@ -6,7 +6,7 @@ import scala.Tuple2;
 
 public final class OverlapsContainCell implements Function<Tuple2<String, Point>, Boolean>
 {
-	private HashSet<String> overlaps;
+	private final HashSet<String> overlaps;
 	
 	public OverlapsContainCell(HashSet<String> overlaps)
 	{
@@ -14,7 +14,7 @@ public final class OverlapsContainCell implements Function<Tuple2<String, Point>
 	}
 	
 	@Override
-	public final Boolean call(Tuple2<String, Point> tuple)
+	public Boolean call(Tuple2<String, Point> tuple)
 	{
 		return this.overlaps.contains(tuple._1);
 	}

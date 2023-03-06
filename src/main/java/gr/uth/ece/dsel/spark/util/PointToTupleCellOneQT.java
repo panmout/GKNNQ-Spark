@@ -13,9 +13,9 @@ public final class PointToTupleCellOneQT implements PairFunction<Point, String, 
 	}
 	
 	@Override
-	public final Tuple2<String, Integer> call(Point p)
+	public Tuple2<String, Integer> call(Point p)
 	{
 		String cell = GnnFunctions.pointToCellQT(p.getX(), p.getY(), this.node);
-		return new Tuple2<String, Integer>(cell, 1);
+		return new Tuple2<>(cell, 1);
 	}
 }

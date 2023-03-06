@@ -7,7 +7,7 @@ import scala.Tuple2;
 
 public final class TpointsInNonPrunedCells implements Function<Tuple2<String, Point>, Boolean>
 {
-	private HashSet<String> npCells;
+	private final HashSet<String> npCells;
 	
 	public TpointsInNonPrunedCells(HashSet<String> cells)
 	{
@@ -15,7 +15,7 @@ public final class TpointsInNonPrunedCells implements Function<Tuple2<String, Po
 	}
 	
 	@Override
-	public final Boolean call(Tuple2<String, Point> tuple)
+	public Boolean call(Tuple2<String, Point> tuple)
 	{
 		return this.npCells.contains(tuple._1);
 	}
